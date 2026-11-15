@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Magnata dos Prompts</title>
+<meta name="description" content="Estoque pessoal de prompts para criativos com IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0a1f;--panel:#15123a;--panel2:#1c1850;--line:#2e2870;--ink:#f3f1ff;--mute:#a9a3d6;
+  --blue:#3b8bff;--violet:#9b5cff;--grad:linear-gradient(90deg,var(--blue),var(--violet));
+  --danger:#ff5d7a;--ok:#35d49a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Manrope,system-ui,sans-serif;color:var(--ink);line-height:1.5;min-height:100vh;
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(155,92,255,.28),transparent 60%),
+    radial-gradient(800px 600px at 0% 20%,rgba(47,139,255,.12),transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:10px}
+.logo{font-family:Anton,Impact,sans-serif;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+.logo em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--ink);padding:9px 14px;border-radius:12px;font-weight:700;font-size:14px}
+.ghost.on{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset}
+
+.hero{border-radius:20px;border:1px solid var(--line);overflow:hidden;position:relative;min-height:180px;
+  background:
+    radial-gradient(600px 260px at 20% 30%,rgba(59,139,255,.45),transparent 60%),
+    radial-gradient(500px 260px at 90% 80%,rgba(155,92,255,.55),transparent 60%),
+    linear-gradient(135deg,#120f33,#1d1060);
+  display:flex;align-items:center;padding:28px;box-shadow:0 20px 60px rgba(70,40,200,.25)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hx{position:relative;font-family:Anton,Impact,sans-serif;font-size:clamp(32px,7vw,72px);line-height:.95;text-transform:uppercase;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.hero .hx em{font-style:normal;color:#7fb2ff}
+
+h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.intro p{margin:0;color:var(--mute);max-width:640px;font-size:14px}
+.count{font-family:'JetBrains Mono',monospace;color:var(--mute);font-size:13px}
+.count b{color:var(--ink)}
+
+/* barra fixa */
+.bar{position:sticky;top:0;z-index:20;padding:12px 0;margin-top:18px;
+  background:linear-gradient(180deg,rgba(11,10,31,.96),rgba(11,10,31,.88));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.search{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:0 14px}
+.search svg{flex:none;opacity:.7}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:inherit;padding:12px 0;font-size:15px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;display:flex;gap:6px;align-items:center}
+.chip small{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+.chip.on{background:var(--grad);border-color:transparent}
+.chip.on small{color:#fff;opacity:.85}
+
+/* grade */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;padding:22px 0 80px}
+@media(max-width:360px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.media{aspect-ratio:9/12;background:#0d0b26;display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;position:relative}
+.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}
+.body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cat{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6ea5ff}
+.title{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:24px;line-height:1.05;margin:0;text-transform:uppercase}
+.headline{margin:0;color:var(--mute);font-size:13.5px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:700;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.pill.mono{font-family:'JetBrains Mono',monospace}
+details{border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.25)}
+summary{list-style:none;padding:11px 12px;font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:flex;gap:8px;align-items:center;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"›";font-size:18px;line-height:0;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details pre{margin:0;padding:0 12px 12px;white-space:pre-wrap;word-break:break-word;font:12.5px/1.55 'JetBrains Mono',monospace;color:#dcd8ff;max-height:340px;overflow:auto}
+.copy{margin-top:auto;border:0;border-radius:12px;padding:12px;background:var(--grad);color:#fff;font-weight:800;display:flex;justify-content:center;gap:8px;align-items:center}
+.adm{display:none;gap:8px}
+body.edit .adm{display:flex}
+.adm button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700;font-size:13px}
+.adm .del{color:var(--danger)}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+
+/* botão novo + painel */
+.fab{display:none;position:fixed;right:18px;bottom:18px;z-index:30;border:0;border-radius:999px;padding:14px 20px;background:var(--grad);color:#fff;font-weight:800;box-shadow:0 10px 30px rgba(120,80,255,.5)}
+body.edit .fab{display:block}
+.editbar{display:none;margin-top:12px;padding:10px 12px;border:1px dashed var(--violet);border-radius:12px;font-size:13px;color:var(--mute);gap:8px;flex-wrap:wrap;align-items:center}
+body.edit .editbar{display:flex}
+.editbar span{flex:1;min-width:200px}
+.editbar button{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font-weight:700;font-size:13px}
+
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--ink);padding:0;width:min(640px,calc(100vw - 24px));max-height:calc(100vh - 24px)}
+dialog::backdrop{background:rgba(5,4,20,.75);backdrop-filter:blur(4px)}
+form{padding:20px;display:grid;gap:12px}
+form h2{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;margin:0;font-size:26px}
+label{display:grid;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+input,select,textarea{background:#0d0b26;border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:14px;padding:10px 12px;text-transform:none;letter-spacing:0;font-weight:500}
+textarea{min-height:110px;resize:vertical}
+textarea.big{min-height:200px;font-family:'JetBrains Mono',monospace;font-size:12.5px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--violet)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two{grid-template-columns:1fr}}
+.hint{font-size:12px;color:var(--mute);font-weight:500;letter-spacing:0;text-transform:none}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+.actions .save{border:0;background:var(--grad);color:#fff;padding:11px 20px;border-radius:12px;font-weight:800}
+.actions .cancel{border:1px solid var(--line);background:none;color:var(--ink);padding:11px 16px;border-radius:12px;font-weight:700}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,90px);background:#fff;color:#130f35;padding:11px 18px;border-radius:12px;font-weight:800;transition:transform .25s;z-index:50}
+.toast.show{transform:translate(-50%,0)}
+</style>
+<style>
+.media{aspect-ratio:9/14}
+.media.foto{aspect-ratio:auto;display:block}
+.media.foto img{height:auto;object-fit:contain}
+.grid{align-items:start;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media(max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:760px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:440px){.grid{grid-template-columns:1fr}}
+.title{font-size:21px}
+.dl{display:flex;justify-content:center;gap:6px;align-items:center;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700;font-size:13px;text-decoration:none}
+.who{color:var(--mute);font-size:13px;margin-right:6px}
+.topr{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+a.ghost{text-decoration:none}
+.adminlink{background:var(--grad);border-color:transparent}
+.msg{font-size:13px;color:var(--mute);text-transform:none;letter-spacing:0;font-weight:500;margin:0}
+.msg.err{color:var(--danger)}
+.loading{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <div class="logo">Magnata <em>dos Prompts</em></div>
+    <div class="topr">
+      <span class="who" id="who"></span>
+      <a class="ghost adminlink" id="adminLink" href="admin.html" hidden>⚙️ Painel ADM</a>
+      <button class="ghost" id="loginBtn">Entrar</button>
+      <button class="ghost" id="logoutBtn" hidden>Sair</button>
+    </div>
+  </div>
+
+  <div class="hero" id="hero">
+    <div class="hx">Magnata<br><em>dos Prompts</em></div>
+  </div>
+
+  <h1>Estoque de <em>Prompts</em></h1>
+  <div class="intro">
+    <p>Prompts organizados por categoria, com vídeo de referência. Abra o "Prompt utilizado", copie e cole na sua ferramenta.</p>
+    <div class="count" id="count"></div>
+  </div>
+</div>
+
+<div class="bar"><div class="wrap">
+  <div class="search">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    <input id="q" type="search" placeholder="Buscar: espelho, CTA, POV, Grok…" aria-label="Buscar">
+  </div>
+  <div class="chips" id="chips"></div>
+</div></div>
+
+<main class="wrap"><div class="grid" id="grid"><p class="loading">Carregando prompts…</p></div></main>
+
+<dialog id="loginDlg">
+  <form id="loginForm">
+    <h2 id="loginTitle">Entrar</h2>
+    <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+    <label>Senha<input name="senha" type="password" required minlength="6" autocomplete="current-password"></label>
+    <p class="msg" id="loginMsg"></p>
+    <div class="actions">
+      <button type="button" class="cancel" id="toggleMode">Primeiro acesso? Criar conta</button>
+      <button type="submit" class="save" id="loginSubmit">Entrar</button>
+    </div>
+    <div class="actions" style="justify-content:space-between">
+      <button type="button" class="cancel" id="forgotBtn">Esqueci minha senha</button>
+      <button type="button" class="cancel" id="loginCancel">Fechar</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  const CATS = ["UGC Feminino","UGC Masculino","UGC Casal","POV","Vídeos com Copy","Motion Control","Criação de Modelo"];
+  const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  let data = [], cat = "Todos", q = "", signup = false;
+
+  function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2200); }
+  const isVideo = u => /\.(mp4|webm|mov)(\?|$)/i.test(u || "");
+  const dlUrl = p => sb.storage.from("midia").getPublicUrl(p, {download:true}).data.publicUrl;
+
+  async function load(){
+    const { data: rows, error } = await sb.from("prompts").select("*").order("ordem", {ascending:true});
+    if (error){ $("grid").innerHTML = `<p class="loading">Erro ao carregar: ${esc(error.message)}</p>`; return; }
+    data = rows; refresh();
+  }
+  function mediaHTML(p){
+    if (!p.midia_url) return "";
+    return isVideo(p.midia_url)
+      ? `<div class="media"><video src="${esc(p.midia_url)}" controls preload="metadata" playsinline></video></div>`
+      : `<div class="media foto"><img src="${esc(p.midia_url)}" alt="" loading="lazy"></div>`;
+  }
+  function renderChips(){
+    const list = [["Todos", data.length], ...CATS.map(c => [c, data.filter(p=>p.categoria===c).length])];
+    $("chips").innerHTML = list.map(([n,k]) => `<button class="chip ${n===cat?"on":""}" data-c="${esc(n)}">${esc(n)} <small>${k}</small></button>`).join("");
+  }
+  function render(){
+    const t = q.toLowerCase();
+    const list = data.filter(p => (cat==="Todos"||p.categoria===cat) &&
+      (!t || [p.titulo,p.headline,p.descricao,p.ferramenta,p.prompt,p.categoria].join(" ").toLowerCase().includes(t)));
+    $("count").innerHTML = `<b>${list.length}</b> de ${data.length} prompts`;
+    $("grid").innerHTML = list.length ? list.map(p => `
+      <article class="card">
+        ${mediaHTML(p)}
+        <div class="body">
+          <div class="cat">${esc(p.categoria)}</div>
+          <h2 class="title">${esc(p.titulo)}</h2>
+          ${p.headline ? `<p class="headline">${esc(p.headline)}</p>` : ""}
+          <div class="pills">${p.ferramenta?`<span class="pill">${esc(p.ferramenta)}</span>`:""}${p.duracao?`<span class="pill mono">${esc(p.duracao)}</span>`:""}</div>
+          ${p.descricao ? `<p class="headline" style="white-space:pre-line">${esc(p.descricao)}</p>` : ""}
+          <details><summary>Prompt utilizado</summary><pre>${esc(p.prompt)}</pre></details>
+          <button class="copy" data-copy="${p.id}">⧉ Copiar prompt</button>
+          ${p.midia_path ? `<a class="dl" href="${esc(dlUrl(p.midia_path))}">⬇ Baixar ${isVideo(p.midia_url)?"vídeo":"imagem"}</a>` : ""}
+        </div>
+      </article>`).join("") : `<p class="empty">Nenhum prompt nesta aba ainda.</p>`;
+  }
+  const refresh = () => { renderChips(); render(); };
+
+  async function copyText(s){
+    try { await navigator.clipboard.writeText(s); }
+    catch(e){ const a=document.createElement("textarea"); a.value=s; document.body.appendChild(a); a.select(); document.execCommand("copy"); a.remove(); }
+    toast("Prompt copiado!");
+  }
+
+  // ---------- login ----------
+  async function updateAuth(session){
+    const user = session?.user;
+    $("loginBtn").hidden = !!user; $("logoutBtn").hidden = !user;
+    $("who").textContent = user ? user.email : "";
+    let admin = false;
+    if (user){ const r = await sb.rpc("sou_admin"); admin = r.data === true; }
+    $("adminLink").hidden = !admin;
+  }
+  // setTimeout evita travar o login do Supabase (não chamar o Supabase direto dentro deste callback)
+  sb.auth.onAuthStateChange((ev, session) => { setTimeout(() => onAuth(ev, session), 0); });
+  async function onAuth(ev, session){
+    updateAuth(session);
+    if (ev === "PASSWORD_RECOVERY"){
+      const nova = prompt("Digite a nova senha (mínimo 6 caracteres):");
+      if (nova){ const r = await sb.auth.updateUser({ password: nova }); toast(r.error ? r.error.message : "Senha atualizada!"); }
+    }
+  }
+
+  function setMode(isSignup){
+    signup = isSignup;
+    $("loginTitle").textContent = signup ? "Criar conta" : "Entrar";
+    $("loginSubmit").textContent = signup ? "Criar conta" : "Entrar";
+    $("toggleMode").textContent = signup ? "Já tenho conta" : "Primeiro acesso? Criar conta";
+    $("loginMsg").textContent = ""; $("loginMsg").className = "msg";
+  }
+  $("loginBtn").onclick = () => { setMode(false); $("loginForm").reset(); $("loginDlg").showModal(); };
+  $("loginCancel").onclick = () => $("loginDlg").close();
+  $("toggleMode").onclick = () => setMode(!signup);
+  $("loginForm").onsubmit = async e => {
+    e.preventDefault();
+    const f = e.target, email = f.email.value.trim(), password = f.senha.value, m = $("loginMsg");
+    m.className = "msg"; m.textContent = "Aguarde…";
+    const r = signup
+      ? await sb.auth.signUp({ email, password, options:{ emailRedirectTo: location.origin } })
+      : await sb.auth.signInWithPassword({ email, password });
+    if (r.error){ m.className = "msg err"; m.textContent = r.error.message === "Invalid login credentials" ? "E-mail ou senha incorretos." : r.error.message; return; }
+    if (signup && !r.data.session){ m.textContent = "Conta criada! Confirme pelo link enviado ao seu e-mail e depois volte aqui para entrar."; return; }
+    $("loginDlg").close(); toast("Bem-vindo!");
+  };
+  $("forgotBtn").onclick = async () => {
+    const email = $("loginForm").email.value.trim(), m = $("loginMsg");
+    if (!email){ m.className="msg err"; m.textContent="Digite seu e-mail acima primeiro."; return; }
+    const r = await sb.auth.resetPasswordForEmail(email, { redirectTo: location.origin });
+    m.className = r.error ? "msg err" : "msg";
+    m.textContent = r.error ? r.error.message : "Enviamos um link para redefinir sua senha.";
+  };
+  $("logoutBtn").onclick = async () => { await sb.auth.signOut(); toast("Você saiu."); };
+
+  $("chips").onclick = e => { const b=e.target.closest(".chip"); if(!b) return; cat=b.dataset.c; refresh(); };
+  $("q").oninput = e => { q=e.target.value; render(); };
+  $("grid").onclick = e => { const b = e.target.closest("[data-copy]"); if (b) copyText(data.find(x=>x.id===b.dataset.copy).prompt); };
+
+  load();
+})();
+</script>
+</body>
+</html>

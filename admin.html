@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel ADM</title>
+<meta name="description" content="Estoque pessoal de prompts para criativos com IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0a1f;--panel:#15123a;--panel2:#1c1850;--line:#2e2870;--ink:#f3f1ff;--mute:#a9a3d6;
+  --blue:#3b8bff;--violet:#9b5cff;--grad:linear-gradient(90deg,var(--blue),var(--violet));
+  --danger:#ff5d7a;--ok:#35d49a;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:Manrope,system-ui,sans-serif;color:var(--ink);line-height:1.5;min-height:100vh;
+  background:
+    radial-gradient(900px 500px at 85% -10%,rgba(155,92,255,.28),transparent 60%),
+    radial-gradient(800px 600px at 0% 20%,rgba(47,139,255,.12),transparent 60%),
+    var(--bg);
+  background-attachment:fixed;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 16px}
+button{font:inherit;cursor:pointer}
+
+/* topo */
+.top{display:flex;justify-content:space-between;align-items:center;padding:14px 0;gap:10px}
+.logo{font-family:Anton,Impact,sans-serif;font-size:18px;letter-spacing:.04em;text-transform:uppercase}
+.logo em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.ghost{background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--ink);padding:9px 14px;border-radius:12px;font-weight:700;font-size:14px}
+.ghost.on{border-color:var(--violet);box-shadow:0 0 0 1px var(--violet) inset}
+
+.hero{border-radius:20px;border:1px solid var(--line);overflow:hidden;position:relative;min-height:180px;
+  background:
+    radial-gradient(600px 260px at 20% 30%,rgba(59,139,255,.45),transparent 60%),
+    radial-gradient(500px 260px at 90% 80%,rgba(155,92,255,.55),transparent 60%),
+    linear-gradient(135deg,#120f33,#1d1060);
+  display:flex;align-items:center;padding:28px;box-shadow:0 20px 60px rgba(70,40,200,.25)}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hx{position:relative;font-family:Anton,Impact,sans-serif;font-size:clamp(32px,7vw,72px);line-height:.95;text-transform:uppercase;text-shadow:0 4px 30px rgba(0,0,0,.4)}
+.hero .hx em{font-style:normal;color:#7fb2ff}
+
+h1{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:clamp(40px,7vw,64px);line-height:1;margin:22px 0 8px;text-transform:uppercase;letter-spacing:.01em}
+h1 em{font-style:normal;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.intro{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap}
+.intro p{margin:0;color:var(--mute);max-width:640px;font-size:14px}
+.count{font-family:'JetBrains Mono',monospace;color:var(--mute);font-size:13px}
+.count b{color:var(--ink)}
+
+/* barra fixa */
+.bar{position:sticky;top:0;z-index:20;padding:12px 0;margin-top:18px;
+  background:linear-gradient(180deg,rgba(11,10,31,.96),rgba(11,10,31,.88));backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.search{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:14px;padding:0 14px}
+.search svg{flex:none;opacity:.7}
+.search input{flex:1;background:none;border:0;outline:0;color:var(--ink);font:inherit;padding:12px 0;font-size:15px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding-top:10px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{flex:none;border:1px solid var(--line);background:rgba(255,255,255,.03);color:var(--ink);padding:8px 14px;border-radius:999px;font-weight:700;font-size:14px;display:flex;gap:6px;align-items:center}
+.chip small{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--mute)}
+.chip.on{background:var(--grad);border-color:transparent}
+.chip.on small{color:#fff;opacity:.85}
+
+/* grade */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;padding:22px 0 80px}
+@media(max-width:360px){.grid{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;overflow:hidden;display:flex;flex-direction:column}
+.media{aspect-ratio:9/12;background:#0d0b26;display:flex;align-items:center;justify-content:center;color:var(--mute);font-size:13px;position:relative}
+.media img,.media video{width:100%;height:100%;object-fit:cover;display:block}
+.body{padding:14px 14px 16px;display:flex;flex-direction:column;gap:10px;flex:1}
+.cat{font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#6ea5ff}
+.title{font-family:Anton,Impact,sans-serif;font-weight:400;font-size:24px;line-height:1.05;margin:0;text-transform:uppercase}
+.headline{margin:0;color:var(--mute);font-size:13.5px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{font-size:12px;font-weight:700;padding:4px 9px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid var(--line)}
+.pill.mono{font-family:'JetBrains Mono',monospace}
+details{border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.25)}
+summary{list-style:none;padding:11px 12px;font-size:12.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);display:flex;gap:8px;align-items:center;cursor:pointer}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"›";font-size:18px;line-height:0;transition:transform .2s}
+details[open] summary::before{transform:rotate(90deg)}
+details pre{margin:0;padding:0 12px 12px;white-space:pre-wrap;word-break:break-word;font:12.5px/1.55 'JetBrains Mono',monospace;color:#dcd8ff;max-height:340px;overflow:auto}
+.copy{margin-top:auto;border:0;border-radius:12px;padding:12px;background:var(--grad);color:#fff;font-weight:800;display:flex;justify-content:center;gap:8px;align-items:center}
+.adm{display:none;gap:8px}
+body.edit .adm{display:flex}
+.adm button{flex:1;padding:9px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700;font-size:13px}
+.adm .del{color:var(--danger)}
+.empty{grid-column:1/-1;text-align:center;color:var(--mute);padding:60px 0}
+
+/* botão novo + painel */
+.fab{display:none;position:fixed;right:18px;bottom:18px;z-index:30;border:0;border-radius:999px;padding:14px 20px;background:var(--grad);color:#fff;font-weight:800;box-shadow:0 10px 30px rgba(120,80,255,.5)}
+body.edit .fab{display:block}
+.editbar{display:none;margin-top:12px;padding:10px 12px;border:1px dashed var(--violet);border-radius:12px;font-size:13px;color:var(--mute);gap:8px;flex-wrap:wrap;align-items:center}
+body.edit .editbar{display:flex}
+.editbar span{flex:1;min-width:200px}
+.editbar button{padding:8px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.05);color:var(--ink);font-weight:700;font-size:13px}
+
+dialog{border:1px solid var(--line);border-radius:18px;background:var(--panel);color:var(--ink);padding:0;width:min(640px,calc(100vw - 24px));max-height:calc(100vh - 24px)}
+dialog::backdrop{background:rgba(5,4,20,.75);backdrop-filter:blur(4px)}
+form{padding:20px;display:grid;gap:12px}
+form h2{font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;margin:0;font-size:26px}
+label{display:grid;gap:6px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+input,select,textarea{background:#0d0b26;border:1px solid var(--line);border-radius:10px;color:var(--ink);font:inherit;font-size:14px;padding:10px 12px;text-transform:none;letter-spacing:0;font-weight:500}
+textarea{min-height:110px;resize:vertical}
+textarea.big{min-height:200px;font-family:'JetBrains Mono',monospace;font-size:12.5px}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--violet)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:520px){.two{grid-template-columns:1fr}}
+.hint{font-size:12px;color:var(--mute);font-weight:500;letter-spacing:0;text-transform:none}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:4px}
+.actions .save{border:0;background:var(--grad);color:#fff;padding:11px 20px;border-radius:12px;font-weight:800}
+.actions .cancel{border:1px solid var(--line);background:none;color:var(--ink);padding:11px 16px;border-radius:12px;font-weight:700}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,90px);background:#fff;color:#130f35;padding:11px 18px;border-radius:12px;font-weight:800;transition:transform .25s;z-index:50}
+.toast.show{transform:translate(-50%,0)}
+</style>
+<style>
+.tabs{display:flex;gap:8px;margin:22px 0 14px;flex-wrap:wrap}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:16px}
+.stat{background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:14px}
+.stat b{display:block;font-family:Anton,Impact,sans-serif;font-weight:400;font-size:30px;line-height:1.1}
+.stat span{font-size:12px;color:var(--mute);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:14px}
+.toolbar .search{flex:1;min-width:220px}
+.toolbar select{min-width:170px}
+.primary{border:0;background:var(--grad);color:#fff;padding:11px 18px;border-radius:12px;font-weight:800}
+.list{display:grid;gap:10px;padding-bottom:60px}
+.row{display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;padding:10px}
+.thumb{width:64px;height:84px;border-radius:10px;background:#0d0b26;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--mute);text-align:center}
+.thumb img,.thumb video{width:100%;height:100%;object-fit:cover}
+.row h3{margin:2px 0 4px;font-size:16px}
+.row .sub{font-size:12.5px;color:var(--mute)}
+.rowbtns{display:flex;gap:8px}
+.rowbtns button{padding:9px 12px;border-radius:10px;border:1px solid var(--line);background:rgba(255,255,255,.04);color:var(--ink);font-weight:700;font-size:13px}
+.rowbtns .del{color:var(--danger)}
+@media(max-width:560px){.row{grid-template-columns:56px 1fr}.rowbtns{grid-column:1/-1}.rowbtns button{flex:1}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:12px 10px;border-bottom:1px solid var(--line)}
+th{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute)}
+.tablewrap{overflow-x:auto;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:14px;margin-bottom:60px}
+.badge{font-size:11px;font-weight:800;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.06em}
+.badge.admin{background:var(--grad);color:#fff}
+.badge.usuario{background:rgba(255,255,255,.08);color:var(--mute)}
+.gate{max-width:420px;margin:60px auto;text-align:center;background:linear-gradient(180deg,var(--panel2),var(--panel));border:1px solid var(--line);border-radius:18px;padding:0}
+.gate form{text-align:left}
+.msg{font-size:13px;color:var(--mute);margin:0}
+.msg.err{color:var(--danger)}
+.prog{height:6px;border-radius:6px;background:#0d0b26;overflow:hidden;display:none}
+.prog i{display:block;height:100%;width:0;background:var(--grad);transition:width .2s}
+.curmedia{font-size:12px;color:var(--mute);display:flex;gap:8px;align-items:center}
+.curmedia button{background:none;border:0;color:var(--danger);font-weight:700;padding:0}
+a.ghost{text-decoration:none}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="top">
+    <div class="logo">Painel <em>ADM</em></div>
+    <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <span id="who" style="color:var(--mute);font-size:13px"></span>
+      <a class="ghost" href="./">← Ver site</a>
+      <button class="ghost" id="logoutBtn" hidden>Sair</button>
+    </div>
+  </div>
+
+  <!-- Bloqueio -->
+  <div id="gate" class="gate" hidden>
+    <form id="loginForm">
+      <h2>Acesso do administrador</h2>
+      <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+      <label>Senha<input name="senha" type="password" required autocomplete="current-password"></label>
+      <p class="msg" id="loginMsg"></p>
+      <div class="actions"><button type="submit" class="save">Entrar</button></div>
+    </form>
+  </div>
+  <div id="denied" class="gate" hidden style="padding:28px">
+    <h2 style="font-family:Anton,Impact,sans-serif;font-weight:400;text-transform:uppercase;margin:0 0 8px">Acesso restrito</h2>
+    <p class="msg">Esta conta é de usuário normal. Somente administradores podem acessar o painel.</p>
+  </div>
+
+  <!-- Painel -->
+  <div id="panel" hidden>
+    <div class="tabs">
+      <button class="chip on" data-tab="prompts">📝 Prompts</button>
+      <button class="chip" data-tab="usuarios">👥 Usuários</button>
+    </div>
+
+    <section id="tab-prompts">
+      <div class="stats" id="stats"></div>
+      <div class="toolbar">
+        <div class="search"><input id="q" type="search" placeholder="Buscar prompt…"></div>
+        <select id="fFiltro"></select>
+        <button class="primary" id="newBtn">＋ Novo prompt</button>
+        <button class="ghost" id="exportBtn">⬇ Backup</button>
+      </div>
+      <div class="list" id="list"></div>
+    </section>
+
+    <section id="tab-usuarios" hidden>
+      <div class="stats" id="ustats"></div>
+      <div class="tablewrap"><table>
+        <thead><tr><th>E-mail</th><th>Acesso</th><th>Cadastro</th><th>Alterar</th></tr></thead>
+        <tbody id="users"></tbody>
+      </table></div>
+    </section>
+  </div>
+</div>
+
+<dialog id="dlg">
+  <form id="form">
+    <h2 id="formTitle">Novo prompt</h2>
+    <div class="two">
+      <label>Aba / Categoria<select name="categoria" id="fCat"></select></label>
+      <label>Nome do vídeo<input name="titulo" required placeholder="Ex.: De frente pro espelho"></label>
+    </div>
+    <label>Headline<input name="headline" placeholder="Ex.: UGC padrão sem cortes completo"></label>
+    <div class="two">
+      <label>Ferramenta<input name="ferramenta" placeholder="Ex.: Flow — Omni Flash, Grok"></label>
+      <label>Duração<input name="duracao" placeholder="Ex.: 10s"></label>
+    </div>
+    <label>Descrição / observações<textarea name="descricao" placeholder="Para que serve, o que trocar no prompt…"></textarea></label>
+    <label>Prompt utilizado<textarea class="big" name="prompt" required placeholder="Cole aqui o seu prompt"></textarea></label>
+    <label>Vídeo ou imagem de referência
+      <input type="file" id="fMedia" accept="video/mp4,video/webm,video/quicktime,image/*">
+      <span class="hint">MP4, WEBM, MOV, JPG, PNG ou WEBP. Máximo de 50 MB.</span>
+    </label>
+    <div class="curmedia" id="curMedia"></div>
+    <div class="prog" id="prog"><i></i></div>
+    <p class="msg" id="formMsg"></p>
+    <div class="actions">
+      <button type="button" class="cancel" id="cancelBtn">Cancelar</button>
+      <button type="submit" class="save" id="saveBtn">Salvar prompt</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
+<script src="config.js"></script>
+<script>
+(function(){
+  const CATS = ["UGC Feminino","UGC Masculino","UGC Casal","POV","Vídeos com Copy","Motion Control","Criação de Modelo"];
+  const BUCKET = "midia", MAX = 50 * 1024 * 1024;
+  const sb = supabase.createClient(window.SUPABASE_URL, window.SUPABASE_KEY);
+  const $ = id => document.getElementById(id);
+  const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const isVideo = u => /\.(mp4|webm|mov)(\?|$)/i.test(u || "");
+  let data = [], users = [], q = "", filtro = "Todas", editing = null, removeMedia = false, me = null;
+
+  function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove("show"),2400); }
+
+  // ---------- acesso ----------
+  async function gate(session){
+    me = session?.user || null;
+    $("who").textContent = me ? me.email : "";
+    $("logoutBtn").hidden = !me;
+    $("gate").hidden = !!me; $("denied").hidden = true; $("panel").hidden = true;
+    if (!me) return;
+    const r = await sb.rpc("sou_admin");
+    if (r.data !== true){ $("denied").hidden = false; return; }
+    $("panel").hidden = false;
+    loadPrompts(); loadUsers();
+  }
+  // setTimeout evita travar o login do Supabase (não chamar o Supabase direto dentro deste callback)
+  sb.auth.onAuthStateChange((_e, s) => { setTimeout(() => gate(s), 0); });
+  $("loginForm").onsubmit = async e => {
+    e.preventDefault();
+    const f = e.target, m = $("loginMsg"); m.className="msg"; m.textContent="Aguarde…";
+    const r = await sb.auth.signInWithPassword({ email:f.email.value.trim(), password:f.senha.value });
+    if (r.error){ m.className="msg err"; m.textContent = r.error.message === "Invalid login credentials" ? "E-mail ou senha incorretos." : r.error.message; }
+    else m.textContent = "";
+  };
+  $("logoutBtn").onclick = () => sb.auth.signOut();
+
+  // ---------- abas ----------
+  document.querySelector(".tabs").onclick = e => {
+    const b = e.target.closest("[data-tab]"); if(!b) return;
+    document.querySelectorAll(".tabs .chip").forEach(x => x.classList.toggle("on", x===b));
+    $("tab-prompts").hidden = b.dataset.tab !== "prompts";
+    $("tab-usuarios").hidden = b.dataset.tab !== "usuarios";
+  };
+
+  // ---------- prompts ----------
+  $("fCat").innerHTML = CATS.map(c=>`<option>${esc(c)}</option>`).join("");
+  $("fFiltro").innerHTML = ["Todas",...CATS].map(c=>`<option>${esc(c)}</option>`).join("");
+  async function loadPrompts(){
+    const { data: rows, error } = await sb.from("prompts").select("*").order("ordem", {ascending:true});
+    if (error) return toast("Erro: " + error.message);
+    data = rows; renderPrompts();
+  }
+  function visiveis(){
+    const t = q.toLowerCase();
+    return data.filter(p => (filtro==="Todas"||p.categoria===filtro) &&
+      (!t || [p.titulo,p.headline,p.ferramenta,p.prompt].join(" ").toLowerCase().includes(t)));
+  }
+  function renderPrompts(){
+    const comVideo = data.filter(p => isVideo(p.midia_url)).length;
+    $("stats").innerHTML = `
+      <div class="stat"><b>${data.length}</b><span>Prompts</span></div>
+      <div class="stat"><b>${comVideo}</b><span>Com vídeo</span></div>
+      <div class="stat"><b>${data.length - data.filter(p=>p.midia_url).length}</b><span>Sem mídia</span></div>
+      <div class="stat"><b>${CATS.length}</b><span>Abas</span></div>`;
+    const list = visiveis();
+    $("list").innerHTML = list.length ? list.map(p => `
+      <div class="row">
+        <div class="thumb">${p.midia_url ? (isVideo(p.midia_url) ? `<video src="${esc(p.midia_url)}#t=0.5" muted preload="metadata"></video>` : `<img src="${esc(p.midia_url)}" alt="">`) : "sem<br>mídia"}</div>
+        <div>
+          <div class="cat">${esc(p.categoria)}</div>
+          <h3>${esc(p.titulo)}</h3>
+          <div class="sub">${esc([p.ferramenta, p.duracao, p.headline].filter(Boolean).join(" · "))}</div>
+        </div>
+        <div class="rowbtns"><button data-up="${p.id}" title="Subir">↑</button><button data-down="${p.id}" title="Descer">↓</button><button data-edit="${p.id}">Editar</button><button class="del" data-del="${p.id}">Excluir</button></div>
+      </div>`).join("") : `<p class="msg" style="text-align:center;padding:40px 0">Nenhum prompt encontrado.</p>`;
+  }
+  $("q").oninput = e => { q = e.target.value; renderPrompts(); };
+  $("fFiltro").onchange = e => { filtro = e.target.value; renderPrompts(); };
+
+  function showCurMedia(){
+    const el = $("curMedia");
+    if (editing && editing.midia_url && !removeMedia){
+      el.innerHTML = `Mídia atual: ${isVideo(editing.midia_url)?"vídeo":"imagem"} <button type="button" id="rmMedia">remover</button>`;
+      $("rmMedia").onclick = () => { removeMedia = true; showCurMedia(); };
+    } else el.textContent = "";
+  }
+  function openForm(p){
+    const f = $("form"); f.reset(); editing = p || null; removeMedia = false;
+    $("formTitle").textContent = p ? "Editar prompt" : "Novo prompt";
+    $("formMsg").textContent = ""; $("prog").style.display = "none";
+    const d = p || {categoria: filtro==="Todas" ? CATS[0] : filtro};
+    ["categoria","titulo","headline","ferramenta","duracao","descricao","prompt"].forEach(k => f.elements[k].value = d[k] || "");
+    showCurMedia(); $("dlg").showModal();
+  }
+  $("newBtn").onclick = () => openForm(null);
+  $("cancelBtn").onclick = () => $("dlg").close();
+  $("list").onclick = async e => {
+    const b = e.target.closest("button"); if(!b) return;
+    const p = data.find(x => x.id === (b.dataset.edit || b.dataset.del || b.dataset.up || b.dataset.down));
+    if (b.dataset.up || b.dataset.down) return mover(p, b.dataset.up ? -1 : 1);
+    if (b.dataset.edit) openForm(p);
+    if (b.dataset.del && confirm(`Excluir "${p.titulo}" e a mídia dele?`)){
+      const r = await sb.from("prompts").delete().eq("id", p.id);
+      if (r.error) return toast("Erro: " + r.error.message);
+      if (p.midia_path) await sb.storage.from(BUCKET).remove([p.midia_path]);
+      toast("Prompt excluído"); loadPrompts();
+    }
+  };
+  // troca a posição com o vizinho da lista que está na tela (respeita o filtro de aba)
+  async function mover(p, dir){
+    const vis = visiveis(), i = vis.findIndex(x => x.id === p.id), o = vis[i + dir];
+    if (!o) return toast(dir < 0 ? "Já é o primeiro" : "Já é o último");
+    const a = p.ordem, b = o.ordem;
+    const r1 = await sb.from("prompts").update({ ordem: b }).eq("id", p.id);
+    const r2 = await sb.from("prompts").update({ ordem: a }).eq("id", o.id);
+    if (r1.error || r2.error) return toast("Erro: " + (r1.error || r2.error).message);
+    p.ordem = b; o.ordem = a; data.sort((x, y) => x.ordem - y.ordem); renderPrompts();
+  }
+
+  $("form").onsubmit = async e => {
+    e.preventDefault();
+    const f = e.target, v = k => f.elements[k].value.trim(), m = $("formMsg"), btn = $("saveBtn");
+    const file = $("fMedia").files[0];
+    if (file && file.size > MAX){ m.className="msg err"; m.textContent="Arquivo maior que 50 MB. Comprima o vídeo e tente de novo."; return; }
+    btn.disabled = true; m.className = "msg";
+    const row = { categoria:v("categoria"), titulo:v("titulo"), headline:v("headline"), ferramenta:v("ferramenta"), duracao:v("duracao"), descricao:v("descricao"), prompt:f.elements.prompt.value };
+    const oldPath = editing?.midia_path || "";
+    try {
+      if (file){
+        m.textContent = "Enviando arquivo…"; $("prog").style.display = "block";
+        const bar = $("prog").firstElementChild; let w = 5; bar.style.width = "5%";
+        const tick = setInterval(() => { w = Math.min(92, w + 3); bar.style.width = w + "%"; }, 400);
+        const ext = (file.name.split(".").pop() || "bin").toLowerCase();
+        const path = `${crypto.randomUUID()}.${ext}`;
+        const up = await sb.storage.from(BUCKET).upload(path, file, { contentType: file.type, upsert:false });
+        clearInterval(tick); bar.style.width = "100%";
+        if (up.error) throw up.error;
+        row.midia_path = path; row.midia_url = sb.storage.from(BUCKET).getPublicUrl(path).data.publicUrl;
+      } else if (removeMedia){ row.midia_path = ""; row.midia_url = ""; }
+      m.textContent = "Salvando…";
+      if (!editing) row.ordem = (data.length ? Math.max(...data.map(x => Number(x.ordem))) : 0) + 10; // novo vai para o final
+      const r = editing ? await sb.from("prompts").update(row).eq("id", editing.id) : await sb.from("prompts").insert(row);
+      if (r.error) throw r.error;
+      if (oldPath && (file || removeMedia)) await sb.storage.from(BUCKET).remove([oldPath]);
+      $("dlg").close(); toast("Prompt salvo!"); loadPrompts();
+    } catch(err){ m.className = "msg err"; m.textContent = "Erro: " + (err.message || err); }
+    finally { btn.disabled = false; }
+  };
+  $("exportBtn").onclick = () => {
+    const blob = new Blob([JSON.stringify(data,null,2)], {type:"application/json"});
+    const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "prompts-backup.json"; a.click();
+  };
+
+  // ---------- usuários ----------
+  async function loadUsers(){
+    const { data: rows, error } = await sb.from("perfis").select("*").order("criado_em", {ascending:false});
+    if (error) return toast("Erro: " + error.message);
+    users = rows; renderUsers();
+  }
+  function renderUsers(){
+    const adm = users.filter(u=>u.papel==="admin").length;
+    $("ustats").innerHTML = `
+      <div class="stat"><b>${users.length}</b><span>Cadastros</span></div>
+      <div class="stat"><b>${adm}</b><span>Administradores</span></div>
+      <div class="stat"><b>${users.length-adm}</b><span>Usuários normais</span></div>`;
+    $("users").innerHTML = users.map(u => `
+      <tr>
+        <td>${esc(u.email)}${me && u.id===me.id ? " <small style='color:var(--mute)'>(você)</small>" : ""}</td>
+        <td><span class="badge ${u.papel}">${u.papel==="admin"?"Administrador":"Usuário"}</span></td>
+        <td>${new Date(u.criado_em).toLocaleDateString("pt-BR")}</td>
+        <td><button class="ghost" data-uid="${u.id}" data-papel="${u.papel==="admin"?"usuario":"admin"}">${u.papel==="admin"?"Tornar usuário":"Tornar admin"}</button></td>
+      </tr>`).join("") || `<tr><td colspan="4" class="msg">Nenhum cadastro ainda.</td></tr>`;
+  }
+  $("users").onclick = async e => {
+    const b = e.target.closest("[data-uid]"); if(!b) return;
+    const u = users.find(x=>x.id===b.dataset.uid);
+    if (!confirm(`${b.dataset.papel==="admin"?"Dar acesso de ADMINISTRADOR para":"Tirar o acesso de administrador de"} ${u.email}?`)) return;
+    const r = await sb.from("perfis").update({ papel: b.dataset.papel }).eq("id", u.id);
+    if (r.error) return toast(r.error.message);
+    toast("Acesso atualizado"); loadUsers();
+    if (me && u.id === me.id) gate((await sb.auth.getSession()).data.session);
+  };
+})();
+</script>
+</body>
+</html>
